@@ -1,8 +1,8 @@
 const express = require('express')
 const app = express()
-const coinsRouter = require('./routers/coins'); 
+const coinsRouter = require('./routers/coinsRouter'); 
 const port = process.env.PORT || 3000
-const usersRouter = require('./routers/user');
+const usersRouter = require('./routers/usersRouter');
 app.use(express.json())
 
 app.use(coinsRouter);

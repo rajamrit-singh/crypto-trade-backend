@@ -33,7 +33,7 @@ const getCoins = () => {
 
         req.on('error', error => {
             console.log(error);
-            reject(error); 
+            reject(error);
         });
 
         req.end();
@@ -72,7 +72,7 @@ const getCoin = (uuid) => {
 
         req.on('error', error => {
             console.log(error);
-            reject(error); 
+            reject(error);
         });
 
         req.end();

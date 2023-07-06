@@ -1,5 +1,5 @@
 const config = require('../../config');
-const coinsUtil = require('../controllers/coins');
+const coinsUtil = require('../controllers/coinsController');
 const express = require('express')
 
 const router = new express.Router();
@@ -8,10 +8,10 @@ router.get('/coins', async (req, res) => {
     try {
         const coins = await coinsUtil.getCoins();
         res.send(JSON.stringify(coins));
-    } catch(error) {
+    } catch (error) {
         res.status(500).send(`${error}. Unable to get data`)
     }
-    
+
 });
 
 router.get('/coin/:uuid', async (req, res) => {
@@ -20,7 +20,7 @@ router.get('/coin/:uuid', async (req, res) => {
         const coin = await coinsUtil.getCoin(uuid);
         console.log(coin);
         res.send(JSON.stringify(coin));
-    } catch(error) {
+    } catch (error) {
         res.status(500).send(`${error}. Unable to get data`)
     }
 });
