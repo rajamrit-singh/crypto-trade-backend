@@ -1,12 +1,16 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+
+const port = process.env.PORT || 3000;
+
 const coinsRouter = require('./routers/coinsRouter'); 
-const port = process.env.PORT || 3000
 const usersRouter = require('./routers/usersRouter');
-app.use(express.json())
+const transactionsRouter = require('./routers/transactionsRouter');
+app.use(express.json());
 
 app.use(coinsRouter);
 app.use(usersRouter);
+app.use(transactionsRouter);
 app.listen(port, () => {
   console.log('server is up on port ' + port)
 })
