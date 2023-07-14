@@ -5,8 +5,8 @@ const jwt = require('jsonwebtoken');
 
 const createUser = async (firstname, lastname, email, password) => {
     const encryptedPass = await bcrypt.hash(password, 8)
-    const query = 'INSERT INTO users (user_id, first_name, last_name, email, password) VALUES (uuid_generate_v4(), $1, $2, $3, $4) RETURNING *';
-    const values = [firstname, lastname, email, encryptedPass];
+    const query = 'INSERT INTO users (user_id, first_name, last_name, email, password, balance) VALUES (uuid_generate_v4(), $1, $2, $3, $4, $5) RETURNING *';
+    const values = [firstname, lastname, email, encryptedPass, 2000];
     try {
         const res = await pool.query(query, values);
         const user = res.rows[0];

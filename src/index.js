@@ -2,12 +2,14 @@ const express = require('express');
 const app = express();
 
 const port = process.env.PORT || 3000;
+const cors = require('cors');
 
 const coinsRouter = require('./routers/coinsRouter'); 
 const usersRouter = require('./routers/usersRouter');
 const transactionsRouter = require('./routers/transactionsRouter');
 app.use(express.json());
 
+app.use(cors());
 app.use(coinsRouter);
 app.use(usersRouter);
 app.use(transactionsRouter);

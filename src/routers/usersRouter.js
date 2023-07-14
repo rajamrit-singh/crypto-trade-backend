@@ -6,8 +6,8 @@ const config = require('../../config');
 
 router.post('/signup', async (req, res) => {
     try {
-        const { firstname, lastname, email, password } = req.body;
-        const user = await createUser(firstname, lastname, email, password);        
+        const { first_name, last_name, email, password } = req.body;
+        const user = await createUser(first_name, last_name, email, password);        
         user.token = generateToken(user.user_id);
         res.send(user);
     } catch (err) {
@@ -25,5 +25,9 @@ router.post('/login', async(req, res) => {
         res.status(400).send('User not found');
     }
 })
+
+router.get('/profile', auth, async(req, res) => {
+    res.send(req.user);
+});
 
 module.exports = router;
