@@ -1,13 +1,22 @@
 const express = require('express')
 const pool = require('../db/pool');
-const { getTransactionsForUser, makeTransaction } = require('../controllers/transactionsController');
+const { getTransactionsForUser, makeTransaction, getUserPurchasedCoins } = require('../controllers/transactionsController');
 const router = new express.Router();
 const auth = require('../middlewares/authentication');
 
 router.get('/transactions', auth, async (req, res) => {
     try {
-        const transactions = getTransactionsForUser(req.user.user_id);
-        res.send(transactions);
+        const transactionsList = await getTransactionsForUser(req.user.user_id);
+        res.send(transactionsList);
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+
+router.get('/mycoins', auth, async (req, res) => {
+    try {
+        const myCoins = await getUserPurchasedCoins(req.user);
+        res.send(transactionsList);
     } catch (error) {
         res.status(400).send(error);
     }
@@ -24,9 +33,9 @@ router.post('/transaction/buy', auth, async (req, res) => {
 });
 
 router.post('/transaction/sell', auth, async (req, res) => {
-    const { user_id, crypto_id, quantity } = req.body;
+    const { crypto_id, quantity } = req.body;
     try {
-        const transaction = await makeTransaction(user_id, crypto_id, quantity, 'sell');
+        const transaction = await makeTransaction(req.user, crypto_id, quantity, 'sell');
         res.send(transaction);
     } catch(error) {
         res.status(400).send(error);
