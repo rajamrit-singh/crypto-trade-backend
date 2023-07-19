@@ -7,12 +7,14 @@ const cors = require('cors');
 const coinsRouter = require('./routers/coinsRouter'); 
 const usersRouter = require('./routers/usersRouter');
 const transactionsRouter = require('./routers/transactionsRouter');
+const userCoinsRouter = require('./routers/userCoinsRouter');
 app.use(express.json());
 
 app.use(cors());
 app.use(coinsRouter);
 app.use(usersRouter);
 app.use(transactionsRouter);
+app.use(userCoinsRouter);
 app.listen(port, () => {
   console.log('server is up on port ' + port)
 })

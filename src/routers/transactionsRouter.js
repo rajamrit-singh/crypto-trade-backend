@@ -13,15 +13,6 @@ router.get('/transactions', auth, async (req, res) => {
     }
 });
 
-router.get('/mycoins', auth, async (req, res) => {
-    try {
-        const myCoins = await getUserPurchasedCoins(req.user);
-        res.send(transactionsList);
-    } catch (error) {
-        res.status(400).send(error);
-    }
-});
-
 router.post('/transaction/buy', auth, async (req, res) => {
     const { crypto_id, quantity } = req.body;
     try {
