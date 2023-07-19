@@ -7,7 +7,6 @@ const auth = async (req, res, next) => {
         const token = req.header('Authorization')
             .replace('Bearer ', '');
         const decoded = jwt.verify(token, config.JWT_SECRET);
-        console.log(decoded);
 
         // Check if the token has expired
         const tokenExpiration = new Date(decoded.exp * 1000);

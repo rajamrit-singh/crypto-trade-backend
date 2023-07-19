@@ -18,7 +18,6 @@ router.get('/coin/:uuid', async (req, res) => {
     const uuid = req.params.uuid;
     try {
         const coin = await coinsUtil.getCoin(uuid);
-        console.log(coin);
         res.send(JSON.stringify(coin));
     } catch (error) {
         res.status(500).send(`${error}. Unable to get data`)

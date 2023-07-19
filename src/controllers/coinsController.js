@@ -23,7 +23,6 @@ const getCoins = () => {
             res.on('end', () => {
                 data = JSON.parse(data);
                 if (data.status === 'fail') {
-                    console.log('hre');
                     reject(data.code);
                 }
                 const coins = data?.data?.coins;
@@ -62,7 +61,6 @@ const getCoin = (uuid) => {
             res.on('end', () => {
                 data = JSON.parse(data);
                 if (data.status === 'fail') {
-                    console.log('hre');
                     reject(data.code);
                 }
                 const coin = data?.data?.coin;

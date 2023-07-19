@@ -18,7 +18,6 @@ const getWallet = async (userId, currency_id) => {
     const walletQuery = `SELECT * FROM wallet WHERE user_id = $1 AND currency_id = $2`;
     const walletValues = [userId, currency_id];
     const walletQueryResp = await pool.query(walletQuery, walletValues);
-    console.log(walletQueryResp.rows[0]);
     return walletQueryResp.rows[0];
 }
 
