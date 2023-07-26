@@ -72,7 +72,7 @@ const sellCoins = async (user, crypto_id, quantity, wallet, cost, totalAmount) =
 const makePurchaseOfCoin = async (user, crypto_id, quantity, wallet, cost, totalAmount) => {
     const updateTransactionQuery = `INSERT INTO transactions (transaction_id, user_id, transaction_type, transaction_timestamp, crypto_cost, crypto_id, quantity, total_amount)
     VALUES (uuid_generate_v4(), $1, $2, CURRENT_TIMESTAMP, $3, $4, $5, $6) RETURNING *`;
-    const updateTransactionValues = [user.user_id, 'sell', cost, crypto_id, Number(quantity), totalAmount];
+    const updateTransactionValues = [user.user_id, 'buy', cost, crypto_id, Number(quantity), totalAmount];
     // let quantity;
     const newUserBalance = user.balance - totalAmount;
     let newQuantity;
