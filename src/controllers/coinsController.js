@@ -1,83 +1,83 @@
-const http = require('http');
+const axios = require('axios');
 const config = require('../../config');
 
-const getCoins = () => {
-    return new Promise((resolve, reject) => {
-        const options = {
-            hostname: 'api.coinranking.com',
-            path: '/v2/coins',
-            method: 'GET',
-            headers: {
-                'x-access-token': config.apiKey,
-                'Content-Type': 'application/json'
-            }
-        };
-
-        const req = http.request(options, res => {
-            let data = '';
-
-            res.on('data', chunk => {
-                data += chunk;
-            });
-
-            res.on('end', () => {
-                data = JSON.parse(data);
-                if (data.status === 'fail') {
-                    reject(data.code);
-                }
-                const coins = data?.data?.coins;
-                resolve(coins);
-            });
-        });
-
-        req.on('error', error => {
-            console.log(error);
-            reject(error);
-        });
-
-        req.end();
+const getCoins = (limit = 50, page, uuids = []) => {
+  const offset = (page - 1) * limit;
+  const uuidsQuery = uuids.map(uuid => `uuids[]=${encodeURIComponent(uuid)}`).join('&');
+  const queryParams = `limit=${limit}&offset=${offset}&${uuidsQuery}`;
+  const url = `https://api.coinranking.com/v2/coins?${queryParams}`;
+  
+  return axios
+    .get(url, {
+      headers: {
+        'x-access-token': config.apiKey,
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((response) => {
+      const data = response.data;
+      if (data.status === 'fail') {
+        return Promise.reject(data.code);
+      }
+      const coins = data?.data?.coins;
+      return coins;
+    })
+    .catch((error) => {
+      console.error(error);
+      return Promise.reject(error);
     });
 };
 
 const getCoin = (uuid) => {
-    return new Promise((resolve, reject) => {
-        const options = {
-            hostname: 'api.coinranking.com',
-            path: `/v2/coin/${uuid}`,
-            method: 'GET',
-            headers: {
-                'x-access-token': config.apiKey,
-                'Content-Type': 'application/json'
-            }
-        };
+  const url = `https://api.coinranking.com/v2/coin/${uuid}`;
 
-        const req = http.request(options, res => {
-            let data = '';
+  return axios
+    .get(url, {
+      headers: {
+        'x-access-token': config.apiKey,
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((response) => {
+      const data = response.data;
+      if (data.status === 'fail') {
+        return Promise.reject(data.code);
+      }
+      const coin = data?.data?.coin;
+      return coin;
+    })
+    .catch((error) => {
+      console.error(error);
+      return Promise.reject(error);
+    });
+};
 
-            res.on('data', chunk => {
-                data += chunk;
-            });
+const getStats = () => {
+  const url = 'https://api.coinranking.com/v2/stats';
 
-            res.on('end', () => {
-                data = JSON.parse(data);
-                if (data.status === 'fail') {
-                    reject(data.code);
-                }
-                const coin = data?.data?.coin;
-                resolve(coin);
-            });
-        });
-
-        req.on('error', error => {
-            console.log(error);
-            reject(error);
-        });
-
-        req.end();
+  return axios
+    .get(url, {
+      headers: {
+        'x-access-token': config.apiKey,
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((response) => {
+      const data = response.data;
+      if (data.status === 'fail') {
+        return Promise.reject(data.code);
+      }
+      const stats = data?.data;
+      return stats;
+    })
+    .catch((error) => {
+      console.error(error);
+      return Promise.reject(error);
     });
 };
 
 module.exports = {
-    getCoins,
-    getCoin
-}
+  getCoins,
+  getCoin,
+  getStats,
+};
